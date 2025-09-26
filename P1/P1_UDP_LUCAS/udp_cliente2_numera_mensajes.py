@@ -18,7 +18,7 @@ def main():
             port = 9999
 
     addr = (host, port)
-    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
     try:
         while True:
@@ -33,7 +33,7 @@ def main():
 
             data = f"{numero_mensaje}: {linea}".encode("utf-8")
             try:
-                sock.sendto(data, addr)
+                s.sendto(data, addr)
                 numero_mensaje += 1
             except OSError as e:
                 print(f"Error al enviar: {e}")
@@ -41,7 +41,7 @@ def main():
     except KeyboardInterrupt:
         pass
     finally:
-        sock.close()
+        s.close()
 
 if __name__ == "__main__":
     main()
