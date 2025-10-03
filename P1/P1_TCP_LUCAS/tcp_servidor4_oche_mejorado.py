@@ -1,5 +1,6 @@
 import socket
 import sys
+import time
 
 def recibe_mensaje(conn):
     buf = bytearray()
@@ -36,6 +37,7 @@ print("Escuchando en el puerto", puerto)
 try:
     while True:
         conn, addr = s.accept()
+        time.sleep(1)
         print("Conexión desde", addr)
         try:
             # Para cada cliente, repetir hasta que recibe None (cliente cerró)
