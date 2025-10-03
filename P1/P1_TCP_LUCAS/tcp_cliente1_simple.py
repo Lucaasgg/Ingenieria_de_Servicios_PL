@@ -22,10 +22,10 @@ except Exception as e:
 try:
     # Enviar 5 veces exactamente 5 bytes "ABCDE"
     for _ in range(5):
-        s.sendall(b"ABCDE")
+        s.sendall("ABCDE")
     # Envío final
-    s.sendall(b"FINAL")
+    s.sendall("FINAL")
 except Exception as e:
-    print(f"Error enviando datos: {e}")
+    print("Error enviando datos: {e}")
 finally:
     s.close()
