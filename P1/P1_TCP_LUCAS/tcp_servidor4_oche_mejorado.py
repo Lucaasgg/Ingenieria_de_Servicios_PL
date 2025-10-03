@@ -1,7 +1,21 @@
 import socket
 import sys
 
-
+def recibe_mensaje(conn):
+    buf = bytearray()
+    while True:
+        b = conn.recv(1)
+        if not b:
+            if not buf:
+                return None
+            # si hay datos acumulados, devolverlos (sin CRLF si existiera)
+            if buf.endswith(b'\r\n'):
+                return buf[:-2].decode('utf8')
+            return buf.decode('utf8')
+        buf += b
+        if len(buf) >= 2 and buf[-2:] == b'\r\n':
+            return buf[:-2].decode('utf8')
+        
 # Creación del socket de escucha
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -45,18 +59,5 @@ finally:
     s.close()
 
 
-def recibe_mensaje(conn):
-    buf = bytearray()
-    while True:
-        b = conn.recv(1)
-        if not b:
-            if not buf:
-                return None
-            # si hay datos acumulados, devolverlos (sin CRLF si existiera)
-            if buf.endswith(b'\r\n'):
-                return buf[:-2].decode('utf8')
-            return buf.decode('utf8')
-        buf += b
-        if len(buf) >= 2 and buf[-2:] == b'\r\n':
-            return buf[:-2].decode('utf8')
+
 
