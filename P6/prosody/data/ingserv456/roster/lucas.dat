@@ -1,0 +1,19 @@
+return {
+	[false] = {
+		["version"] = 9;
+		["pending"] = {};
+	};
+	["samuel@ingserv456"] = {
+		["groups"] = {
+			["Buddies"] = true;
+		};
+		["subscription"] = "both";
+	};
+	["samuel"] = {
+		["ask"] = "subscribe";
+		["groups"] = {
+			["Buddies"] = true;
+		};
+		["subscription"] = "none";
+	};
+};
