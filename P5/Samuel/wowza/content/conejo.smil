@@ -1,0 +1,11 @@
+<smil>
+    <head>
+    </head>
+    <body>
+        <switch>
+            <video src="mp4:conejo_low.mp4" system-bitrate="500000"/>
+            <video src="mp4:conejo_mid.mp4" system-bitrate="1000000"/>
+            <video src="mp4:conejo_high.mp4" system-bitrate="2000000"/>
+        </switch>
+    </body>
+</smil>
