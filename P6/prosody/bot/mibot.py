@@ -2,7 +2,7 @@ import logging
 import getpass
 import os
 import ssl
-
+import slixmpp
 class MyBot(slixmpp.ClientXMPP):
     def __init__(self, jid, password):
         super().__init__(jid, password)
