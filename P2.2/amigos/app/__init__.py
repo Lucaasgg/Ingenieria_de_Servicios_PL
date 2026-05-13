@@ -13,6 +13,7 @@ def create_app(config_name):
     app.config.from_pyfile('config.py')
     db.init_app(app)
     migrate = Migrate(app, db)
+    from app import models
 
     from .html import html as html_blueprint
     app.register_blueprint(html_blueprint, url_prefix='/html')
@@ -20,4 +21,9 @@ def create_app(config_name):
     from .api import api as api_blueprint
     app.register_blueprint(api_blueprint, url_prefix='/api')
 
+    @app.route('/amigos')
+    def hola_mundo():
+        from app.models import Amigo
+        amigos = Amigo.query.all()
+        return render_template('tabla_amigos.html', amigos = amigos)
     return app
