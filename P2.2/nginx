@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+while getopts "rsc" arg; do
+	case $arg in
+		r)
+			docker run --rm -d --network pruebas --name nginx \
+				-v $(pwd)/sitios_nginx:/etc/nginx/conf.d \
+				-p 80:80 nginx
+			;;
+		s)
+			docker stop nginx
+			;;
+		c)
+			docker ps
+			;;
+	esac
+done
+
+

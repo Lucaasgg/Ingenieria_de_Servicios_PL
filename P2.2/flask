@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+while getopts "rsc" arg; do
+	case $arg in
+		r)
+		docker run --name amigos \
+			-e DEPLOYMENT_MODE=production \
+			-e DATABASE_URI=mysql+pymysql://amigosuser:amigospass@basedatos/amigosdb \
+			--rm -d --network pruebas amigos:1.0
+			;;
+		s)
+			docker stop amigos 
+			;;
+		c)
+			docker ps
+			;;
+	esac
+done
+
+

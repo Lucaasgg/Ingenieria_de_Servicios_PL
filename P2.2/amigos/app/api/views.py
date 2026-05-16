@@ -75,3 +75,11 @@ def new_amigo():
     amigodict = {"id": amigo.id, "name": amigo.name,
                  "longi": amigo.longi, "lati": amigo.lati }
     return jsonify(amigodict)
+@api.route("/amigo/<int:id>", methods=["DELETE"])
+def delete_amigo(id):
+    amigo = db.session.get(Amigo, id)
+    if amigo is None:
+        return ('', 404)
+    db.session.delete(amigo)
+    db.session.commit()
+    return ('', 204)

@@ -1,0 +1,19 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Amigo - Modificar amigos</title>
+	</head>
+	<body>
+		<h1>Amigo - Modificar datos</h1>
+		<form action="/html/save_amigo" method="POST">
+			<input type="hidden" name="id" value="{{amigo.id}}"/>
+			<label for="name">Nombre</label>
+			<input type="text" name="name" value="{{amigo.name}}"/>
+			<label for="name">Longitud</label>
+			<input type="text" name="longi" value="{{amigo.longi}}"/>
+			<label for="name">Latitud</label>
+			<input type="text" name="lati" value="{{amigo.lati}}"/>
+			<input type="submit" value="Enviar"/>
+		</form>
+	</body>
+</html>
