@@ -5,7 +5,7 @@ def RecvReply(sc, codigo):
     datos = sc.recv(1024)
     caracteres = datos[:3]
     if codigo != int(caracteres):
-        print("El código proporcionado no coincide con el recibido", file=sys.stderr)
+        print("El código proporcionado %d no coincide con el recibido %s" % (codigo, caracteres), file=sys.stderr)
         sys.exit()
 
     print(datos.decode('utf-8'))
