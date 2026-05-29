@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Root version="1">
 	<Application>
-		<Name>vod</Name>
+		<Name>videodemanda</Name>
 		<AppType>VOD</AppType>
 		<Description>Default application for video on demand (VOD) streaming created when Wowza Streaming Engine is installed. Use this application with its default configuration or modify the configuration as needed. You can also copy it to create another VOD application.</Description>
 		<!-- Uncomment to set application level timeout values
