@@ -4,7 +4,7 @@
             "outputFile": "es.uniovi.converter.app-mergeDebugResources-40:/values-ldrtl-v17/values-ldrtl-v17.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\UO293747\\.gradle\\caches\\8.11.1\\transforms\\b5c9ab60a8a3de93e12ffe12147b7157\\transformed\\material-1.13.0\\res\\values-ldrtl-v17\\values-ldrtl-v17.xml",
+                    "source": "C:\\Users\\Usuario\\.gradle\\caches\\8.13\\transforms\\72e62b10f408a1fccfb95d8b0ea46e8d\\transformed\\material-1.13.0\\res\\values-ldrtl-v17\\values-ldrtl-v17.xml",
                     "from": {
                         "startLines": "2,3",
                         "startColumns": "4,4",
