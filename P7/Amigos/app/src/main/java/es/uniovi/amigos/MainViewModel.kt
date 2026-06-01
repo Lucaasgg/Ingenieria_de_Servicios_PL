@@ -22,7 +22,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     init {
         Log.d("MainViewModel", "MainViewModel created")
-        startPolling()
     }
 
     fun getAmigosList() {
@@ -46,15 +45,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    private fun startPolling() {
-        viewModelScope.launch {
-            while (true) {
-                Log.d("Polling", "Pidiendo amigos...")
-                getAmigosList()
-                delay(5000)
-            }
-        }
-    }
+
 
     fun startLocationUpdates() {
         viewModelScope.launch {
