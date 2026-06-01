@@ -1,0 +1,10 @@
+return {
+	[false] = {
+		["version"] = 4;
+		["pending"] = {};
+	};
+	["uo295421@ingserv456"] = {
+		["groups"] = {};
+		["subscription"] = "both";
+	};
+};
