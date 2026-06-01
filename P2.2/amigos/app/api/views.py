@@ -1,3 +1,5 @@
+from app import fcm
+from app.models import get_all_devices
 from flask import request, abort, jsonify
 from .. import db
 from . import api
@@ -8,6 +10,8 @@ def get_amigo(id):
     amigo = Amigo.query.get_or_404(id)
     amigodict = {'id': amigo.id, 'name': amigo.name,
                  'lati': amigo.lati, 'longi': amigo.longi, 'device': amigo.device or ''}
+    tokens = get_all_devices()
+    fcm.notificar_amigos(tokens, "Nuevo amigo")
     return jsonify(amigodict)
 
 @api.route("/amigo/byName/<name>")
@@ -53,6 +57,8 @@ def edit_amigo(id):
 
     amigodict = {"id": amigo.id, "name": amigo.name,
                  "longi": amigo.longi, "lati": amigo.lati, "device": amigo.device or "" }
+    tokens = get_all_devices()
+    fcm.notificar_amigos(tokens, "Amigo actualizado")
     return jsonify(amigodict)
 
 @api.route("/amigos", methods=["POST"])

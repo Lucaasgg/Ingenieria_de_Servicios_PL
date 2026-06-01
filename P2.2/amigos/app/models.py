@@ -15,3 +15,7 @@ class Amigo(db.Model):
 
     def __repr__(self):
         return "<Amigo[{}]: {}>".format(self.id, self.name)
+
+def get_all_devices():
+    amigos = Amigo.query.filter(Amigo.device != None, Amigo.device != "").all()
+    return [a.device for a in amigos]

@@ -1,6 +1,6 @@
-FROM python:3.7
+FROM python:3.12
 RUN pip install flask && pip install gunicorn
-RUN pip install flask-sqlalchemy pymysql flask-migrate
+RUN pip install flask-sqlalchemy pymysql flask-migrate firebase-admin
 
 RUN mkdir /amigos
 COPY . /amigos
