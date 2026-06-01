@@ -19,7 +19,7 @@ class MainViewModel: ViewModel() {
 
     // La función que obtiene la tasa de cambio se mueve aqui
     // en vez de en la Activity.
-    private fun fetchExchangeRate() {
+    fun fetchExchangeRate() {
         // Lo primero, si ya fue descargado, no hacer nada
         if (yaDescargado) return
 

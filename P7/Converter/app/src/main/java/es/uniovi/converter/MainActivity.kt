@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         }
         editTextEuros = findViewById(R.id.editTextEuros)
         editTextDollars = findViewById(R.id.editTextDollars)
+        viewModel.fetchExchangeRate()
     }
     fun onClickToDollars(view: View) {
         val factor = viewModel.euroToDollar
