@@ -6,7 +6,9 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.launch
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
@@ -96,6 +98,14 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 }
                 userId = amigo.id
                 Log.d("MainViewModel", "Id del usuario: \$userId")
+                try {
+                    val token = FirebaseMessaging.getInstance().token.await()
+                    Log.d("MainViewModel", "Token FCM: \$token")
+                    RetrofitClient.api.updateAmigoDeviceToken(amigo.id, DeviceTokenPayload(token))
+                    Log.d("MainViewModel", "Token enviado al backend")
+                } catch (ex: Exception) {
+                    Log.e("MainViewModel", "Error obteniendo/enviando token FCM", ex)
+                }
             } catch (e: Exception) {
                 Log.e("MainViewModel", "Excepcion buscando amigo", e)
             }

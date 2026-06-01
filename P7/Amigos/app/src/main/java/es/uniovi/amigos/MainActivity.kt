@@ -1,7 +1,10 @@
 package es.uniovi.amigos
 
 import android.Manifest
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
@@ -25,6 +28,15 @@ import org.osmdroid.views.overlay.Marker
 class MainActivity : AppCompatActivity() {
     private var map: MapView? = null
     private val viewModel: MainViewModel by viewModels()
+
+    private val updateReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (intent?.action == "updateFromServer") {
+                Log.d("MainActivity", "Aviso de FCM recibido! Actualizando amigos...")
+                viewModel.getAmigosList()
+            }
+        }
+    }
 
     private val requestPermissionLauncher =
         registerForActivityResult(
@@ -84,7 +96,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         viewModel.amigosList.observe(this) { listaDeAmigos ->
-            Log.d("MainActivity", "Observer notificado! Amigos: \$listaDeAmigos")
+            Log.d("MainActivity", "Observer notificado! Amigos: $listaDeAmigos")
             paintAmigosList(listaDeAmigos)
         }
 
@@ -95,11 +107,16 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         map?.onResume()
+        Log.d("MainActivity", "Registrando receptor de avisos FCM...")
+        val filter = IntentFilter("updateFromServer")
+        registerReceiver(updateReceiver, filter, Context.RECEIVER_NOT_EXPORTED)
     }
 
     override fun onPause() {
         super.onPause()
         map?.onPause()
+        Log.d("MainActivity", "Desregistrando receptor de avisos FCM...")
+        unregisterReceiver(updateReceiver)
     }
 
     private fun centrarMapaEnEuropa() {

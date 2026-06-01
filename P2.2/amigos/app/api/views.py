@@ -7,7 +7,7 @@ from ..models import Amigo
 def get_amigo(id):
     amigo = Amigo.query.get_or_404(id)
     amigodict = {'id': amigo.id, 'name': amigo.name,
-                 'lati': amigo.lati, 'longi': amigo.longi}
+                 'lati': amigo.lati, 'longi': amigo.longi, 'device': amigo.device or ''}
     return jsonify(amigodict)
 
 @api.route("/amigo/byName/<name>")
@@ -16,7 +16,7 @@ def get_amigo_by_name(name):
     if not amigo:
         abort(404, "No hay ningún amigo con ese nombre")
     amigodict = {'id': amigo.id, 'name': amigo.name,
-                 'lati': amigo.lati, 'longi': amigo.longi}
+                 'lati': amigo.lati, 'longi': amigo.longi, 'device': amigo.device or ''}
     return jsonify(amigodict)
 
 @api.route("/amigos")
@@ -25,7 +25,7 @@ def list_amigos():
     amigosdict = []
     for i in range(len(amigos)):
        amigosdict.append({'id': amigos[i].id, 'name': amigos[i].name,
-                          'lati': amigos[i].lati, 'longi': amigos[i].longi
+                          'lati': amigos[i].lati, 'longi': amigos[i].longi, 'device': amigos[i].device or ''
                           })
     return jsonify(amigosdict)
 @api.route("/amigo/<int:id>", methods=["PUT"])
@@ -45,11 +45,14 @@ def edit_amigo(id):
     if longi:
         amigo.longi = longi
 
-    if name or lati or longi:
+    device = request.json.get("device")
+    if device is not None:
+        amigo.device = device
+    if name or lati or longi or device is not None:
         db.session.commit()
 
     amigodict = {"id": amigo.id, "name": amigo.name,
-                 "longi": amigo.longi, "lati": amigo.lati }
+                 "longi": amigo.longi, "lati": amigo.lati, "device": amigo.device or "" }
     return jsonify(amigodict)
 
 @api.route("/amigos", methods=["POST"])
@@ -73,7 +76,7 @@ def new_amigo():
     db.session.commit()
 
     amigodict = {"id": amigo.id, "name": amigo.name,
-                 "longi": amigo.longi, "lati": amigo.lati }
+                 "longi": amigo.longi, "lati": amigo.lati, "device": amigo.device or "" }
     return jsonify(amigodict)
 @api.route("/amigo/<int:id>", methods=["DELETE"])
 def delete_amigo(id):
