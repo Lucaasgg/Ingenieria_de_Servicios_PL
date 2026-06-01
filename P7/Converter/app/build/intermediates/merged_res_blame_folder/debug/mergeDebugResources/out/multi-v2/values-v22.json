@@ -4,7 +4,7 @@
             "outputFile": "es.uniovi.converter.app-mergeDebugResources-40:/values-v22/values-v22.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\UO293747\\.gradle\\caches\\8.11.1\\transforms\\45c60516e21f42780eaaed976468deeb\\transformed\\appcompat-1.7.1\\res\\values-v22\\values-v22.xml",
+                    "source": "C:\\Users\\Usuario\\.gradle\\caches\\8.13\\transforms\\ea8c874ceb0796b4eaf201866b9a04d9\\transformed\\appcompat-1.7.1\\res\\values-v22\\values-v22.xml",
                     "from": {
                         "startLines": "2,3,4,9",
                         "startColumns": "4,4,4,4",
