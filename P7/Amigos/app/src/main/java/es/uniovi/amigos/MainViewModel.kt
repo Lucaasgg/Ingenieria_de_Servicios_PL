@@ -1,33 +1,49 @@
 package es.uniovi.amigos
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class MainViewModel : ViewModel() {
-    private var amigosList: List<MainActivity.Amigo>? = null // Por defecto es nula
+    private val _amigosList = MutableLiveData<List<Amigo>>()
+    val amigosList: LiveData<List<Amigo>> = _amigosList
 
     init {
         Log.d("MainViewModel", "MainViewModel created")
+        startPolling()
     }
 
     fun getAmigosList() {
         viewModelScope.launch {
             try {
-                val response = MainActivity.RetrofitClient.api.getAmigos()
+                val response = RetrofitClient.api.getAmigos()
                 if (!response.isSuccessful) {
-                    Log.e("MainActivity", "Error al obtener los amigos: ${response.code()}")
+                    Log.e("MainViewModel", "Error al obtener los amigos: ${response.code()}")
                     return@launch
                 }
-                val amigosList = response.body()
-                if (amigosList == null) {
-                    Log.e("MainActivity", "Lista de amigos es nula")
+                val body = response.body()
+                if (body == null) {
+                    Log.e("MainViewModel", "Lista de amigos es nula")
                     return@launch
                 }
-                Log.d("MainViewModel", "Amigos: $amigosList")
+                _amigosList.setValue(body)
+                Log.d("MainViewModel", "Amigos recibidos: ${amigosList.value}")
             } catch (e: Exception) {
-                Log.e("MainActivity", "Excepción al obtener los amigos", e)
+                Log.e("MainViewModel", "Excepcion al obtener los amigos", e)
+            }
+        }
+    }
+
+    private fun startPolling() {
+        viewModelScope.launch {
+            while (true) {
+                Log.d("Polling", "Pidiendo amigos...")
+                getAmigosList()
+                delay(5000)
             }
         }
     }

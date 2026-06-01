@@ -2,10 +2,11 @@ package es.uniovi.amigos
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
-import androidx.preference.PreferenceManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.preference.PreferenceManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -13,37 +14,30 @@ import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.GET
-import retrofit2.http.Query
+import org.osmdroid.views.overlay.Marker
 
 class MainActivity : AppCompatActivity() {
-    private var map: MapView? = null // Referencia al objeto MapView
+    private var map: MapView? = null
     private val viewModel: MainViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // 1. Cargar el layout
         setContentView(R.layout.activity_main)
 
-        // 2. Leer la configuración de la aplicación e inicializar mapa
-        // Esta es una operación de E/S en disco, para no bloquear el hilo GUI lo lanzamos
-        // en un hilo separado, via una corutina
         lifecycleScope.launch {
-            // Dentro de la corutina, usamos un hilo del pool de hilos I/O
             withContext(Dispatchers.IO) {
                 val ctx: Context = applicationContext
                 Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx))
             }
-            // Una vez cargada la configuración, inicializamos el mapa
             map = findViewById(R.id.map)
             map?.setTileSource(TileSourceFactory.MAPNIK)
             centrarMapaEnEuropa()
-            viewModel.getAmigosList()
         }
 
+        viewModel.amigosList.observe(this) { listaDeAmigos ->
+            Log.d("MainActivity", "Observer notificado! Amigos: $listaDeAmigos")
+            paintAmigosList(listaDeAmigos)
+        }
     }
 
     override fun onResume() {
@@ -55,38 +49,32 @@ class MainActivity : AppCompatActivity() {
         super.onPause()
         map?.onPause()
     }
-    fun centrarMapaEnEuropa() {
-        // Esta función mueve el centro del mapa a Paris y ajusta el zoom
-        // para que se vea Europa
+
+    private fun centrarMapaEnEuropa() {
         val mapController = map?.controller
         mapController?.setZoom(5.5)
         val startPoint = GeoPoint(48.8583, 2.2944)
         mapController?.setCenter(startPoint)
     }
 
-    data class Amigo(
-        val nombre: String,
-        val latitud: Double,
-        val longitud: Double
-    )
-
-    interface AmigosApiService {
-        @GET("api/amigos")
-        suspend fun getAmigos(
-        ): Response<List<Amigo>>
-    }
-    object RetrofitClient {
-        private const val BASE_URL = "https://fumaric-pennie-vyingly.ngrok-free.dev"
-
-        private val retrofit by lazy {
-            Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
+    private fun paintAmigosList(amigos: List<Amigo>) {
+        map?.overlays?.clear()
+        for (amigo in amigos) {
+            val lat = amigo.lati.toDoubleOrNull() ?: continue
+            val lon = amigo.longi.toDoubleOrNull() ?: continue
+            addMarker(lat, lon, amigo.name)
         }
+        map?.invalidate()
+    }
 
-        val api: AmigosApiService by lazy {
-            retrofit.create(AmigosApiService::class.java)
+    private fun addMarker(latitud: Double, longitud: Double, name: String?) {
+        map?.let { mapaNoNulo ->
+            val coords = GeoPoint(latitud, longitud)
+            val startMarker = Marker(mapaNoNulo)
+            startMarker.position = coords
+            startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
+            startMarker.title = name
+            mapaNoNulo.overlays.add(startMarker)
         }
     }
 }
