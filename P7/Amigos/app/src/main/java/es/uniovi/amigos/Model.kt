@@ -15,6 +15,10 @@ data class Amigo(
     val longi: String
 )
 
+data class DeviceTokenPayload(
+    val device: String
+)
+
 data class LocationPayload(
     val lati: String,
     val longi: String
@@ -31,6 +35,12 @@ interface AmigosApiService {
     suspend fun updateAmigoPosition(
         @Path("id") amigoId: Int,
         @Body payload: LocationPayload
+    ): Response<Amigo>
+
+    @retrofit2.http.PUT("api/amigo/{id}")
+    suspend fun updateAmigoDeviceToken(
+        @Path("id") amigoId: Int,
+        @retrofit2.http.Body payload: DeviceTokenPayload
     ): Response<Amigo>
 }
 
