@@ -52,7 +52,7 @@ if __name__ == "__main__":
     jid = "bot@ingserv456"
     ip = "localhost"
     port = 5222
-    clave = os.environ.get("CLAVEBOT")
+    clave = "bot" 
     if clave is None:
         clave = getpass.getpass("Contrasena: ")
     cert_file = "../etc/prosody/certs/ingserv456.crt"

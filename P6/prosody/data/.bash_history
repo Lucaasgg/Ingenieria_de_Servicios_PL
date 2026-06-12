@@ -16,3 +16,9 @@ ls /var/lib/prosody/ingserv456/accounts/
 exit
 prosodyctl passwd lucas@ingserv456
 exit
+prosodyctl adduser uo293747@ingserv456
+exit
+prosodyctl adduser samuel@ingserv456
+prosodyctl passwd samuel@ingserv456
+prosodyctl passwd samuel@ingserv456
+exit

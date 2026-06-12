@@ -1,15 +1,16 @@
 return {
 	[false] = {
-		["version"] = 13;
+		["version"] = 7;
 		["pending"] = {};
 	};
 	["lucas@ingserv456"] = {
+		["ask"] = "subscribe";
 		["groups"] = {
 			["Buddies"] = true;
 		};
-		["subscription"] = "both";
+		["subscription"] = "none";
 	};
-	["uo293747@ingserv456"] = {
+	["samuel@ingserv456"] = {
 		["groups"] = {
 			["Buddies"] = true;
 		};

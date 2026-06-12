@@ -1,7 +1,9 @@
 return {
 	[false] = {
-		["version"] = 13;
-		["pending"] = {};
+		["version"] = 14;
+		["pending"] = {
+			["uo293747@ingserv456"] = true;
+		};
 	};
 	["samuel@ingserv456"] = {
 		["groups"] = {

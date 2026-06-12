@@ -4,7 +4,7 @@ from firebase_admin import credentials, messaging
 
 cred = None
 try:
-    json_path = os.path.join(os.path.dirname(__file__), '..', 'serviceAccount.json')
+    json_path = os.path.join(os.path.dirname(__file__), 'serviceAccount.json')
     cred = credentials.Certificate(json_path)
     firebase_admin.initialize_app(cred)
     print("Firebase inicializado correctamente")
